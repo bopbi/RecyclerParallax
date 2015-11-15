@@ -1,17 +1,16 @@
 package com.arjunalabs.android.recyclerparallax;
 
-import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
-import android.util.Log;
+import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 
 import java.util.ArrayList;
 
 
-public class MainActivity extends ActionBarActivity {
+public class MainActivity extends AppCompatActivity {
+
+    ParallaxRecyclerView recyclerView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,10 +26,7 @@ public class MainActivity extends ActionBarActivity {
         }
 
         // prepare the recyclerview
-        RecyclerView recyclerView = (RecyclerView) findViewById(R.id.recyclerview);
-        final LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
-        linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
-        recyclerView.setLayoutManager(linearLayoutManager);
+        recyclerView = (ParallaxRecyclerView) findViewById(R.id.recyclerview);
 
         // do the adapter
         ParallaxAdapter parallaxAdapter = new ParallaxAdapter(parallaxModelArrayList);
@@ -38,33 +34,7 @@ public class MainActivity extends ActionBarActivity {
         // bind the adapter with the recyclerview
         recyclerView.setAdapter(parallaxAdapter);
 
-        // add onscroll
-        recyclerView.setOnScrollListener(new RecyclerView.OnScrollListener() {
-            @Override
-            public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
-                super.onScrollStateChanged(recyclerView, newState);
-            }
-
-            @Override
-            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
-
-                /*
-                int visibleItemCount = linearLayoutManager.getChildCount();
-                int totalItemCount = linearLayoutManager.getItemCount();
-                int first = linearLayoutManager.findFirstVisibleItemPosition();
-                */
-
-
-                super.onScrolled(recyclerView, dx, dy);
-                if (dy >0) {
-                    Log.i("parallax", "scroll up");
-                } else {
-                    Log.i("parallax", "scroll down");
-                }
-            }
-        });
     }
-
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {

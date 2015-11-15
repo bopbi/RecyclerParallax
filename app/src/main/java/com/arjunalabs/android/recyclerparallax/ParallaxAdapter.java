@@ -42,13 +42,28 @@ public class ParallaxAdapter extends RecyclerView.Adapter<ParallaxAdapter.Parall
             parallaxViewHolder.parallaxImage.setImageResource(R.drawable.lorempixel);
         }
 
-        parallaxViewHolder.itemView.setTag(parallaxModel);
+        Matrix matrix = parallaxViewHolder.parallaxImage.getImageMatrix();
+        matrix.postTranslate(0, -100);
+        parallaxViewHolder.parallaxImage.setImageMatrix(matrix);
+
+        parallaxViewHolder.itemView.setTag(parallaxViewHolder);
     }
 
     @Override
     public int getItemCount() {
         // hardcoded first
         return parallaxModelList.size();
+    }
+
+    @Override
+    public void onViewRecycled(ParallaxViewHolder parallaxViewHolder) {
+        super.onViewRecycled(parallaxViewHolder);
+        parallaxViewHolder.parallaxImage.setScaleType(ImageView.ScaleType.MATRIX);
+        Matrix matrix = parallaxViewHolder.parallaxImage.getImageMatrix();
+        // this is set manually to show to the center
+        matrix.reset();
+        parallaxViewHolder.parallaxImage.setImageMatrix(matrix);
+
     }
 
     public static class ParallaxViewHolder extends RecyclerView.ViewHolder {
@@ -59,11 +74,6 @@ public class ParallaxAdapter extends RecyclerView.Adapter<ParallaxAdapter.Parall
             super(itemView);
             parallaxImage = (ImageView) itemView.findViewById(R.id.image_background);
             parallaxImage.setScaleType(ImageView.ScaleType.MATRIX);
-            Matrix matrix = parallaxImage.getImageMatrix();
-            // because the image background size is 400 x 300
-            // this is set manually to show to the center
-            matrix.postTranslate(0, -100);
-            parallaxImage.setImageMatrix(matrix);
             parallaxText = (TextView) itemView.findViewById(R.id.text_title);
         }
     }
