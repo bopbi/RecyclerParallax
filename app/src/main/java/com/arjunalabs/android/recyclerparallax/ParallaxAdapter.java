@@ -1,7 +1,9 @@
 package com.arjunalabs.android.recyclerparallax;
 
 import android.graphics.Matrix;
+import android.graphics.drawable.Drawable;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,9 +18,13 @@ import java.util.List;
 public class ParallaxAdapter extends RecyclerView.Adapter<ParallaxAdapter.ParallaxViewHolder> {
 
     private List<ParallaxModel> parallaxModelList;
+    private static final int imageViewHeight = 100;
+    private float translateScale;
 
-    public ParallaxAdapter(List<ParallaxModel> parallaxModelList) {
+    public ParallaxAdapter(List<ParallaxModel> parallaxModelList, int recyclerViewHeight, float recyclerViewYPos) {
         this.parallaxModelList = parallaxModelList;
+        translateScale =  (float)imageViewHeight / (float)recyclerViewHeight;
+
     }
 
     @Override
@@ -34,16 +40,23 @@ public class ParallaxAdapter extends RecyclerView.Adapter<ParallaxAdapter.Parall
         parallaxViewHolder.parallaxText.setText(parallaxModel.getTitle());
 
         // for now we will hardcode
+        // the example image height is 300px
+        int drawableImage = R.drawable.lorempixel;
         if (i % 2 == 0) {
-            parallaxViewHolder.parallaxImage.setImageResource(R.drawable.lorempixel2);
+            drawableImage = R.drawable.lorempixel2;
         } else if (i % 3 == 0) {
-            parallaxViewHolder.parallaxImage.setImageResource(R.drawable.lorempixel3);
-        } else {
-            parallaxViewHolder.parallaxImage.setImageResource(R.drawable.lorempixel);
+            drawableImage = R.drawable.lorempixel3;
         }
 
+        parallaxViewHolder.parallaxImage.setImageResource(drawableImage);
+
+        // calculate matrix translation;
+        int viewHeight = parallaxViewHolder.parallaxImage.getMeasuredHeight();
+        int drawableHeight = parallaxViewHolder.parallaxImage.getDrawable().getIntrinsicHeight();
+        int position = (drawableHeight - viewHeight) / 2;
+
         Matrix matrix = parallaxViewHolder.parallaxImage.getImageMatrix();
-        matrix.postTranslate(0, -100);
+        matrix.postTranslate(0, -position);
         parallaxViewHolder.parallaxImage.setImageMatrix(matrix);
 
         parallaxViewHolder.itemView.setTag(parallaxViewHolder);
@@ -76,5 +89,9 @@ public class ParallaxAdapter extends RecyclerView.Adapter<ParallaxAdapter.Parall
             parallaxImage.setScaleType(ImageView.ScaleType.MATRIX);
             parallaxText = (TextView) itemView.findViewById(R.id.text_title);
         }
+    }
+
+    public float getTranslationScale() {
+        return translateScale;
     }
 }

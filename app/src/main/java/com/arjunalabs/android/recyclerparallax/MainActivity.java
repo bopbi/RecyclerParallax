@@ -11,6 +11,7 @@ import java.util.ArrayList;
 public class MainActivity extends AppCompatActivity {
 
     ParallaxRecyclerView recyclerView;
+    ArrayList<ParallaxModel> parallaxModelArrayList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -18,7 +19,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         // create dummy data
-        ArrayList<ParallaxModel> parallaxModelArrayList = new ArrayList<ParallaxModel>();
+        parallaxModelArrayList = new ArrayList<>(20);
         for (int i = 0; i < 20; i++) {
             ParallaxModel parallaxModel = new ParallaxModel();
             parallaxModel.setTitle("Row" + i);
@@ -27,13 +28,18 @@ public class MainActivity extends AppCompatActivity {
 
         // prepare the recyclerview
         recyclerView = (ParallaxRecyclerView) findViewById(R.id.recyclerview);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
 
         // do the adapter
-        ParallaxAdapter parallaxAdapter = new ParallaxAdapter(parallaxModelArrayList);
-
+        ParallaxAdapter parallaxAdapter = new ParallaxAdapter(parallaxModelArrayList, recyclerView.getHeight(), recyclerView.getY());
         // bind the adapter with the recyclerview
         recyclerView.setAdapter(parallaxAdapter);
 
+        recyclerView.setupParallax(this, parallaxAdapter.getTranslationScale());
     }
 
     @Override

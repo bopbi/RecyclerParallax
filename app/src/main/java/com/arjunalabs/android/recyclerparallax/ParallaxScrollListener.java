@@ -10,7 +10,14 @@ import android.widget.ImageView;
  */
 public class ParallaxScrollListener extends RecyclerView.OnScrollListener {
 
-    private float scrollSpeed = 0.5f;
+    private float scrollSpeed;
+    private int viewHeight;
+
+
+    public ParallaxScrollListener(int viewHeight, float scrollSpeed) {
+        this.viewHeight = viewHeight;
+        this.scrollSpeed = 0.2f;
+    }
 
     @Override
     public void onScrolled(RecyclerView recyclerView, int dx, int dy) {

@@ -14,23 +14,25 @@ public class ParallaxRecyclerView extends RecyclerView {
 
     public ParallaxRecyclerView(Context context) {
         super(context);
-        init(context);
     }
 
     public ParallaxRecyclerView(Context context, AttributeSet attrs) {
         super(context, attrs);
-        init(context);
     }
 
     public ParallaxRecyclerView(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
-        init(context);
     }
 
+    @Override
+    protected void onFinishInflate() {
+        super.onFinishInflate();
+    }
 
-    void init(Context context) {
+    void setupParallax(Context context, float scrollSpeed) {
         setLayoutManager(new LinearLayoutManager(context));
-        addOnScrollListener(new ParallaxScrollListener());
+        ParallaxScrollListener parallaxScrollListener = new ParallaxScrollListener(getMeasuredHeight(), scrollSpeed);
+        addOnScrollListener(parallaxScrollListener);
     }
 
 }
