@@ -29,9 +29,9 @@ public class ParallaxRecyclerView extends RecyclerView {
         super.onFinishInflate();
     }
 
-    void setupParallax(Context context, float scrollSpeed) {
+    void setupParallax(Context context) {
         setLayoutManager(new LinearLayoutManager(context));
-        ParallaxScrollListener parallaxScrollListener = new ParallaxScrollListener(getMeasuredHeight(), scrollSpeed);
+        ParallaxScrollListener parallaxScrollListener = new ParallaxScrollListener();
         addOnScrollListener(parallaxScrollListener);
     }
 

@@ -28,18 +28,26 @@ public class MainActivity extends AppCompatActivity {
 
         // prepare the recyclerview
         recyclerView = (ParallaxRecyclerView) findViewById(R.id.recyclerview);
+        recyclerView.setHasFixedSize(true);
     }
 
     @Override
     protected void onResume() {
         super.onResume();
 
+
+    }
+
+    @Override
+    public void onWindowFocusChanged(boolean hasFocus) {
+        super.onWindowFocusChanged(hasFocus);
+
         // do the adapter
-        ParallaxAdapter parallaxAdapter = new ParallaxAdapter(parallaxModelArrayList, recyclerView.getHeight(), recyclerView.getY());
+        ParallaxAdapter parallaxAdapter = new ParallaxAdapter(parallaxModelArrayList, recyclerView.getHeight());
         // bind the adapter with the recyclerview
         recyclerView.setAdapter(parallaxAdapter);
 
-        recyclerView.setupParallax(this, parallaxAdapter.getTranslationScale());
+        recyclerView.setupParallax(this);
     }
 
     @Override
