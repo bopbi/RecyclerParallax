@@ -1,6 +1,14 @@
 # RecyclerParallax
 Android Recycler View with Parallax Effect on each item
 
+# How to use
+This in an example app, not a library so in order to implement it please take a look at these files:
+- ParallaxAdapter.java -> on the method bindView it is set the image to-be parallaxed as the background with specific size, and provide the method retranslate to translate the image
+- ParallaxRecyclerView.java -> custom recyclerview that bind the recyclerview with the scroll listener
+- ParallaxScrollListener.java -> custom Scroll listener that perform the call Adapter retranslate method  
+
+basically the technique is use the scroll listener to call every viewholder to translate the background image based on its position
+
 License
 --------
 
